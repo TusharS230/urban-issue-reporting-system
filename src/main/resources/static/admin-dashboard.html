@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <h2>Urban Issue Tracker</h2>
+    <h2>Admin Dashboard</h2>
+    <button class="logout" onclick="logout()">Logout</button>
+
+    <h3>System Statistics</h3>
+
+    <div id="stats">
+      <div class="stat-card stat-open">
+        Open Issues<br />
+        <span id="openCount">0</span>
+      </div>
+
+      <div class="stat-card stat-assigned">
+        Assigned Issues<br />
+        <span id="assignedCount">0</span>
+      </div>
+
+      <div class="stat-card stat-resolved">
+        Resolved Issues<br />
+        <span id="resolvedCount">0</span>
+      </div>
+
+      <div class="stat-card stat-pending">
+        Pending Workers<br />
+        <span id="pendingWorkers">0</span>
+      </div>
+    </div>
+
+    <h3>Pending workers</h3>
+
+    <div class="table-container">
+      <table border="1" id="workerTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Deaprtment</th>
+            <th>Location</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <h3>Open Issues</h3>
+
+    <select id="statusFilter" onchange="filterIssues()">
+      <option value="OPEN">Open</option>
+      <option value="ASSIGNED">Assigned</option>
+      <option value="RESOLVED">Resolved</option>
+    </select>
+
+    <div class="table-container">
+      <table border="1" id="issueTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Department</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Image</th>
+            <th>Assign Worker</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <p id="message"></p>
+
+    <script src="js/admin.js"></script>
+  </body>
+</html>

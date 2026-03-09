@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Worker Dashboard</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <h2>Urban Issue Tracker</h2>
+    <h2>Worker Dashboard</h2>
+
+    <button class="logout" onclick="logout()">Logout</button>
+
+    <h3>Worker Profile</h3>
+
+    <div id="workerProfile">
+      <p><b>ID:</b> <span id="workerId"></span></p>
+      <p><b>Name:</b> <span id="workerName"></span></p>
+      <p><b>Username:</b> <span id="workerUsername"></span></p>
+      <p><b>Department:</b> <span id="workerDepartment"></span></p>
+      <p><b>Location:</b> <span id="workerLocation"></span></p>
+    </div>
+
+    <h3>My Performance</h3>
+
+    <div id="workerStats">
+      <div class="stat-card">
+        Assigned Issues<br />
+        <span id="assignedCount">0</span>
+      </div>
+
+      <div class="stat-card">
+        Resolved Issues<br />
+        <span id="resolvedCount">0</span>
+      </div>
+
+      <div class="stat-card">
+        Total Issues<br />
+        <span id="totalCount">0</span>
+      </div>
+    </div>
+
+    <h3>My Issues</h3>
+
+    <select id="statusFilter" onchange="filterIssues()">
+      <option value="ASSIGNED">Assigned</option>
+      <option value="RESOLVED">Resolved</option>
+      <option value="ALL">All</option>
+    </select>
+
+    <h3>Assigned Issues</h3>
+
+    <div class="table-container">
+      <table border="1" id="issueTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Action</th>
+            <th>Images</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <p id="message"></p>
+
+    <script src="js/worker.js"></script>
+  </body>
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Citizen Dashboard</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <h2>Urban Issue Tracker</h2>
+    <h2>Citizen Dashboard</h2>
+
+    <h3>My Profile</h3>
+
+    <div id="profileBox">
+      <p><b>ID:</b> <span id="userId"></span></p>
+      <p><b>Name:</b> <span id="userName"></span></p>
+      <p><b>Username:</b> <span id="userUsername"></span></p>
+      <p><b>Location:</b> <span id="userLocation"></span></p>
+    </div>
+
+    <h3>Submit new Issue</h3>
+
+    <form id="issueForm">
+      <label>Title:</label>
+      <input type="text" id="title" required />
+
+      <label>Decription:</label>
+      <textarea id="description" required></textarea>
+
+      <label>Category:</label>
+      <select id="category">
+        <option value="Garbage">Garbage</option>
+        <option value="Water">Water</option>
+        <option value="Road">Road</option>
+        <option value="Electricity">Electricity</option>
+      </select>
+
+      <label>Priority:</label>
+      <select id="priority">
+        <option value="LOW">Low</option>
+        <option value="MEDIUM">Medium</option>
+        <option value="HIGH">High</option>
+      </select>
+
+      <label>Enter location:</label>
+      <input type="text" id="location" required />
+
+      <input type="file" id="image" />
+
+      <button type="submit">Submit Issue</button>
+    </form>
+
+    <div class="table-container">
+      <table border="1" id="issueTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Assigned Worker</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Assigned Worker</th>
+            <th>Date</th>
+            <th>Images</th>
+          </tr>
+        </thead>
+
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <p id="message"></p>
+
+    <script src="js/citizen.js"></script>
+  </body>
+</html>
