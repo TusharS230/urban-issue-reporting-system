@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
+    <button class="logout" onclick="logout()">Logout</button>
     <h2>Urban Issue Tracker</h2>
     <h2>Admin Dashboard</h2>
-    <button class="logout" onclick="logout()">Logout</button>
 
     <h3>System Statistics</h3>
 
@@ -69,12 +69,37 @@
             <th>Department</th>
             <th>Priority</th>
             <th>Status</th>
+            <th>Created</th>
+            <th>Assigned</th>
+            <th>Resolved</th>
             <th>Image</th>
             <th>Assign Worker</th>
+            <th>Comments</th>
           </tr>
         </thead>
         <tbody></tbody>
       </table>
+    </div>
+
+    <div
+      id="commentSection"
+      style="
+        display: none;
+        margin-top: 20px;
+        border: 1px solid #ccc;
+        padding: 15px;
+      "
+    >
+      <h3>Issue Comments</h3>
+      <div id="commentList"></div>
+      <textarea
+        id="newComment"
+        placeholder="Write comment"
+        style="width: 100%; height: 70px"
+      ></textarea>
+      <br /><br />
+      <button onclick="addComment()">Add Comment</button>
+      <button onClick="closeComments()">Close</button>
     </div>
 
     <p id="message"></p>

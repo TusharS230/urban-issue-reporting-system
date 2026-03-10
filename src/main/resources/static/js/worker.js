@@ -1,17 +1,13 @@
+let currentIssueId = null;
+
 document.addEventListener("DOMContentLoaded", function () {
   const user = JSON.parse(localStorage.getItem("user"));
   // const worker = JSON.parse(localStorage.getItem("user"));
 
-  if (!user) {
-    alert("Please login first");
+  if (!user || user.role !== "WORKER") {
+    alert("Invalid session");
+    localStorage.removeItem("user");
     window.location.href = "login.html";
-    return;
-  }
-
-  if (user.role !== "WORKER") {
-    alert("Access denied");
-    window.location.href = "login.html";
-    return;
   }
 
   document.getElementById("workerId").innerText = user.id;
@@ -58,6 +54,10 @@ function loadIssues(workerId) {
         </td>
         <td>
         <img src="http://localhost:8080/uploads/${issue.imagePath}" width="80">
+        </td>
+
+        <td>
+        <button onclick="showComments(${issue.id})">Comments</button>
         </td>
         `;
 
@@ -127,11 +127,71 @@ function filterIssues() {
             : "No image"
         }
         </td>
+
+        <td>
+        <button onclick="showComments(${issue.id})">Comments</button>
+        </td>
       `;
 
         tableBody.appendChild(row);
       });
     });
+}
+
+function logout() {
+  localStorage.removeItem("user");
+  window.location.href = "login.html";
+}
+
+function showComments(issueId) {
+  currentIssueId = issueId;
+
+  fetch(`http://localhost:8080/comments/issue/${issueId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      const list = document.getElementById("commentList");
+      list.innerHTML = "";
+
+      data.forEach((c) => {
+        const div = document.createElement("div");
+
+        const role = c.user.role.toLowerCase();
+
+        div.innerHTML = `
+      <b>${c.user.name} (${role})</b>
+      <br>
+      ${c.comment}
+      <br>
+      <small>${c.createdAt.substring(0, 16)}</small>
+      <hr>
+      `;
+        list.appendChild(div);
+      });
+      document.getElementById("commentSection").style.display = "block";
+    });
+}
+
+function addComment() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const commentText = document.getElementById("newComment").value;
+
+  fetch(`http://localhost:8080/comments/add/${currentIssueId}/${user.id}`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify(commentText),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      document.getElementById("newComment").value = "";
+
+      showComments(currentIssueId);
+    });
+}
+
+function closeComments() {
+  document.getElementById("commentSection").style.display = "none";
 }
 
 function logout() {

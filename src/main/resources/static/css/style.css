@@ -193,6 +193,11 @@ tbody td {
   border-bottom: 1px solid #eee;
 }
 
+td:nth-child(3) {
+  max-width: 200px;
+  word-wrap: break-word;
+}
+
 /* STRIPED ROWS */
 
 tbody tr:nth-child(even) {
@@ -227,4 +232,11 @@ table img {
 
 .table-container::-webkit-scrollbar-thumb:hover {
   background: #888;
+}
+
+.badge {
+  background: #e3f2fd;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
 }

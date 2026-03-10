@@ -1,12 +1,13 @@
 let workers = [];
+let currentIssueId = null;
 
 document.addEventListener("DOMContentLoaded", function () {
   const user = JSON.parse(localStorage.getItem("user"));
 
   if (!user || user.role !== "ADMIN") {
-    alert("Access Denied");
+    alert("Invalid session");
+    localStorage.removeItem("user");
     window.location.href = "login.html";
-    return;
   }
 
   loadPendingWorkers();
@@ -30,7 +31,7 @@ function loadPendingWorkers() {
         row.innerHTML = `
         <td>${worker.id}</td>
         <td>${worker.name}</td>
-        <td>${worker.department}</td>
+        <td><span class="badge">${worker.department}</span></td>
         <td>${worker.location}</td>
         <td>
           <button onclick="approveWorker(${worker.id})">
@@ -92,9 +93,12 @@ function filterIssues() {
         row.innerHTML = `
       <td>${issue.id}</td>
       <td>${issue.title}</td>
-      <td>${issue.department}</td>
+      <td><span class="badge">${issue.category}</span></td>
       <td>${issue.priority}</td>
       <td>${issue.status}</td>
+      <td>${issue.createdAt ? issue.createdAt.substring(0, 10) : "-"}</td>
+      <td>${issue.assignedAt ? issue.assignedAt.substring(0, 10) : "-"}</td>
+      <td>${issue.resolvedAt ? issue.resolvedAt.substring(0, 10) : "-"}</td>
 
       <td>
       ${
@@ -106,6 +110,10 @@ function filterIssues() {
 
       <td>
         ${workerColumn}
+      </td>
+
+      <td>
+      <button onclick="showComments(${issue.id})">View</button>
       </td>
       `;
 
@@ -130,9 +138,14 @@ function approveWorker(workerId) {
 function assignIssue(issueId) {
   const workerId = document.getElementById(`worker-${issueId}`).value;
 
-  fetch(`http://localhost:8080/issues/assign/${issueId}/${workerId}`, {
-    method: "PUT",
-  })
+  const admin = JSON.parse(localStorage.getItem("user"));
+
+  fetch(
+    `http://localhost:8080/issues/assign/${issueId}/${workerId}/${admin.id}`,
+    {
+      method: "PUT",
+    },
+  )
     .then((response) => response.json())
     .then((data) => {
       document.getElementById("message").innerText =
@@ -154,6 +167,57 @@ function loadStats() {
       document.getElementById("assignedCount").innerText = data.assigned;
       document.getElementById("resolvedCount").innerText = data.resolved;
     });
+}
+
+function showComments(issueId) {
+  currentIssueId = issueId;
+
+  fetch(`http://localhost:8080/comments/issue/${issueId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      const list = document.getElementById("commentList");
+      list.innerHTML = "";
+
+      data.forEach((c) => {
+        const div = document.createElement("div");
+
+        const role = c.user.role.toLowerCase();
+
+        div.innerHTML = `
+      <b>${c.user.name} (${role})</b>
+      <br>
+      ${c.comment}
+      <br>
+      <small>${c.createdAt.substring(0, 16)}</small>
+      <hr>
+      `;
+        list.appendChild(div);
+      });
+      document.getElementById("commentSection").style.display = "block";
+    });
+}
+
+function addComment() {
+  const admin = JSON.parse(localStorage.getItem("user"));
+  const commentText = document.getElementById("newComment").value;
+
+  fetch(`http://localhost:8080/comments/add/${currentIssueId}/${admin.id}`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify(commentText),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      document.getElementById("newComment").value = "";
+
+      showComments(currentIssueId);
+    });
+}
+
+function closeComments() {
+  document.getElementById("commentSection").style.display = "none";
 }
 
 function logout() {

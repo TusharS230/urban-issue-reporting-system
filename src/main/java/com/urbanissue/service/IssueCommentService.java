@@ -5,6 +5,7 @@ import com.urbanissue.model.IssueComment;
 import com.urbanissue.model.User;
 import com.urbanissue.repository.IssueCommentRepository;
 import com.urbanissue.repository.IssueRepository;
+import com.urbanissue.repository.IssueTimelineRepository;
 import com.urbanissue.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ public class IssueCommentService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private IssueTimelineService timelineService;
+
     public IssueComment addComment(Long issueId, Long userId, String commentText) {
         Issue issue = issueRepository.findById(issueId)
                 .orElseThrow(() -> new RuntimeException("Issue not found"));
@@ -38,7 +42,10 @@ public class IssueCommentService {
         comment.setUser(user);
         comment.setCreatedAt(LocalDateTime.now());
 
-        return commentRepository.save(comment);
+        IssueComment savedComment = commentRepository.save(comment);
+        timelineService.addEvent(issue, user, "COMMENT_ADDED");
+
+        return savedComment;
     }
 
     public List<IssueComment> getComments(Long issueId) {

@@ -22,7 +22,7 @@ public class IssueCommentController {
         return commentService.addComment(issueId, userId, comment);
     }
 
-    @GetMapping("/{issueId}")
+    @GetMapping("/issue/{issueId}")
     public List<IssueComment> getComments(@PathVariable Long issueId) {
         return commentService.getComments(issueId);
     }

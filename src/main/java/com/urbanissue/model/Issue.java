@@ -25,6 +25,8 @@ public class Issue {
     private String imagePath;
     private String priority;
     private LocalDateTime createdAt;
+    private LocalDateTime assignedAt;
+    private LocalDateTime resolvedAt;
 
     @ManyToOne
     @JoinColumn(name = "citizen_id")

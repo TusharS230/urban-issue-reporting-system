@@ -55,10 +55,11 @@ public class IssueController {
         return issueService.resolveIssue(issueId, workerId);
     }
 
-    @PutMapping("/assign/{issueId}/{workerId}")
+    @PutMapping("/assign/{issueId}/{workerId}/{adminId}")
     public Issue assignWorker(@PathVariable Long issueId,
-                              @PathVariable Long workerId) {
-        return issueService.assignWorker(issueId, workerId);
+                              @PathVariable Long workerId,
+                              @PathVariable Long adminId){
+        return issueService.assignWorker(issueId, workerId, adminId);
     }
 
     @GetMapping("/worker/{workerId}")

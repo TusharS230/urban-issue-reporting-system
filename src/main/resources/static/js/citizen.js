@@ -4,16 +4,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const user = JSON.parse(localStorage.getItem("user"));
 
   // check login
-  if (!user) {
-    alert("Please login first");
+  if (!user || user.role !== "CITIZEN") {
+    alert("Invalid session");
+    localStorage.removeItem("user");
     window.location.href = "login.html";
-    return;
-  }
-
-  if (user.role !== "CITIZEN") {
-    alert("Access denied");
-    window.location.href = "login.html";
-    return;
   }
 
   const form = document.getElementById("issueForm");
@@ -98,6 +92,10 @@ function loadMyIssues(citizenId) {
       <td>
       <button onclick="showComments(${issue.id})">View</button>
       </td>
+
+      <td>
+      <button onclick="showTimeline(${issue.id})">Timeline</button>
+      </td>
       `;
 
         tableBody.appendChild(row);
@@ -125,7 +123,7 @@ function formatStatus(status) {
 function showComments(issueId) {
   currentIssueId = issueId;
 
-  fetch(`http://localhost:8080/comments/${issueId}`)
+  fetch(`http://localhost:8080/comments/issue/${issueId}`)
     .then((response) => response.json())
     .then((data) => {
       const list = document.getElementById("commentList");
@@ -169,4 +167,40 @@ function addComment() {
 
 function closeComments() {
   document.getElementById("commentSection").style.display = "none";
+}
+
+function showTimeline(issueId) {
+  fetch(`http://localhost:8080/timeline/issue/${issueId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      const list = document.getElementById("timelineList");
+      list.innerHTML = "";
+
+      data.forEach((t) => {
+        const div = document.createElement("div");
+        const role = t.user.role ? t.user.role.toLowerCase() : "";
+
+        div.innerHTML = `
+          <div class="timeline-item">
+          <strong>${t.action.replace("_", " ")}</strong> by ${t.user.name} (${role})
+          <br>
+          <small>${t.time.substring(0, 16)}</small>
+          </div>
+          <hr>
+        `;
+
+        list.appendChild(div);
+      });
+
+      document.getElementById("timelineSection").style.display = "block";
+    });
+}
+
+function closeTimeline() {
+  document.getElementById("timelineSection").style.display = `none`;
+}
+
+function logout() {
+  localStorage.removeItem("user");
+  window.location.href = "login.html";
 }

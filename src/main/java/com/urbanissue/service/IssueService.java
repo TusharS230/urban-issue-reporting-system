@@ -21,6 +21,9 @@ public class IssueService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private IssueTimelineService timelineService;
+
     public Issue createIssue(Issue issue, Long citizenId) {
         User citizen = userRepository.findById(citizenId)
                 .orElseThrow(() -> new RuntimeException("Citizen not found"));
@@ -28,8 +31,10 @@ public class IssueService {
         issue.setCitizen(citizen);
         issue.setStatus("OPEN");
         issue.setCreatedAt(LocalDateTime.now());
+        Issue savedIssue = issueRepository.save(issue);
+        timelineService.addEvent(savedIssue, citizen, "ISSUE_CREATED");
 
-        return issueRepository.save(issue);
+        return savedIssue;
     }
 
     public List<Issue> getOpenIssues() {
@@ -48,18 +53,28 @@ public class IssueService {
             throw new RuntimeException("You are not assigned to this issue");
         }
 
-        issue.setStatus("RESOLVED");
+        User worker = issue.getAssignedWorker();
 
-        return issueRepository.save(issue);
+        issue.setStatus("RESOLVED");
+        issue.setResolvedAt(LocalDateTime.now());
+
+        Issue savedIssue = issueRepository.save(issue);
+
+        timelineService.addEvent(savedIssue, worker, "ISSUE_RESOLVED");
+
+        return savedIssue;
     }
 
-    public Issue assignWorker(Long issueId, Long workerId) {
+    public Issue assignWorker(Long issueId, Long workerId, Long adminId) {
 
         Issue issue = issueRepository.findById(issueId)
                 .orElseThrow(() -> new RuntimeException("Issue not found"));
 
         User worker = userRepository.findById(workerId)
                 .orElseThrow(() -> new RuntimeException("Worker not found"));
+
+        User admin = userRepository.findById(adminId)
+                .orElseThrow(() -> new RuntimeException("Admin not found"));
 
         if(!worker.getRole().equalsIgnoreCase("WORKER")) {
             throw new RuntimeException("User is not a worker");
@@ -71,8 +86,13 @@ public class IssueService {
 
         issue.setAssignedWorker(worker);
         issue.setStatus("ASSIGNED");
+        issue.setAssignedAt(LocalDateTime.now());
 
-        return issueRepository.save(issue);
+        Issue savedIssue = issueRepository.save(issue);
+
+        timelineService.addEvent(savedIssue, admin, "WORKER_ASSIGNED");
+
+        return savedIssue;
     }
 
     public List<Issue> getIssuesForWorker(Long workerId) {

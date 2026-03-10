@@ -6,6 +6,7 @@
   </head>
 
   <body>
+    <button class="logout" onclick="logout()">Logout</button>
     <h2>Urban Issue Tracker</h2>
     <h2>Citizen Dashboard</h2>
 
@@ -56,13 +57,14 @@
           <tr>
             <th>ID</th>
             <th>Title</th>
-            <th>Assigned Worker</th>
+            <th>Description</th>
             <th>Priority</th>
             <th>Status</th>
             <th>Assigned Worker</th>
             <th>Date</th>
             <th>Images</th>
             <th>Comments</th>
+            <th>Timeline</th>
           </tr>
         </thead>
 
@@ -89,6 +91,22 @@
       <br /><br />
       <button onclick="addComment()">Add Comment</button>
       <button onClick="closeComments()">Close</button>
+    </div>
+
+    <div
+      id="timelineSection"
+      style="
+        display: none;
+        border: 1px solid #ccc;
+        padding: 15px;
+        margin-top: 20px;
+      "
+    >
+      <h3>Issue Timeline</h3>
+
+      <div id="timelineList"></div>
+
+      <button onclick="closeTimeline()">Close</button>
     </div>
 
     <p id="message"></p>
