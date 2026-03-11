@@ -95,10 +95,10 @@ function filterIssues() {
       <td>${issue.title}</td>
       <td><span class="badge">${issue.category}</span></td>
       <td>${issue.priority}</td>
-      <td>${issue.status}</td>
-      <td>${issue.createdAt ? issue.createdAt.substring(0, 10) : "-"}</td>
-      <td>${issue.assignedAt ? issue.assignedAt.substring(0, 10) : "-"}</td>
-      <td>${issue.resolvedAt ? issue.resolvedAt.substring(0, 10) : "-"}</td>
+      <td>${formatStatus(issue.status)}</td>
+      <td class="date-col">${issue.createdAt ? issue.createdAt.substring(0, 10) : "-"}</td>
+      <td class="date-col">${issue.assignedAt ? issue.assignedAt.substring(0, 10) : "-"}</td>
+      <td class="date-col">${issue.resolvedAt ? issue.resolvedAt.substring(0, 10) : "-"}</td>
 
       <td>
       ${
@@ -120,6 +120,20 @@ function filterIssues() {
         tableBody.appendChild(row);
       });
     });
+}
+
+function formatStatus(status) {
+  if (status === "OPEN") {
+    return `<span class="status-open">OPEN</span>`;
+  }
+
+  if (status === "ASSIGNED") {
+    return `<span class="status-assigned">ASSIGNED</span>`;
+  }
+
+  if (status === "RESOLVED") {
+    return `<span class="status-resolved">RESOLVED</span>`;
+  }
 }
 
 function approveWorker(workerId) {
@@ -193,7 +207,7 @@ function showComments(issueId) {
       `;
         list.appendChild(div);
       });
-      document.getElementById("commentSection").style.display = "block";
+      document.getElementById("commentModal").style.display = "flex";
     });
 }
 
@@ -217,7 +231,7 @@ function addComment() {
 }
 
 function closeComments() {
-  document.getElementById("commentSection").style.display = "none";
+  document.getElementById("commentModal").style.display = "none";
 }
 
 function logout() {

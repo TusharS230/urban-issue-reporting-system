@@ -79,7 +79,7 @@ function loadMyIssues(citizenId) {
       ${issue.assignedWorker ? issue.assignedWorker.name : "Not Assigned"}
       </td>
 
-      <td>${issue.createdAt ? issue.createdAt.substring(0, 10) : ""}</td>
+      <td class="date-col">${issue.createdAt ? issue.createdAt.substring(0, 10) : ""}</td>
 
       <td>
       ${
@@ -143,7 +143,7 @@ function showComments(issueId) {
         list.appendChild(div);
       });
 
-      document.getElementById("commentSection").style.display = "block";
+      document.getElementById("commentModal").style.display = "flex";
     });
 }
 
@@ -166,7 +166,7 @@ function addComment() {
 }
 
 function closeComments() {
-  document.getElementById("commentSection").style.display = "none";
+  document.getElementById("commentModal").style.display = "none";
 }
 
 function showTimeline(issueId) {
@@ -192,12 +192,12 @@ function showTimeline(issueId) {
         list.appendChild(div);
       });
 
-      document.getElementById("timelineSection").style.display = "block";
+      document.getElementById("timelineModal").style.display = "flex";
     });
 }
 
 function closeTimeline() {
-  document.getElementById("timelineSection").style.display = `none`;
+  document.getElementById("timelineModal").style.display = `none`;
 }
 
 function logout() {

@@ -111,7 +111,7 @@ function filterIssues() {
         <td>${issue.title}</td>
         <td>${issue.description}</td>
         <td>${issue.priority}</td>
-        <td>${issue.status}</td>
+        <td>${formatStatus(issue.status)}</td>
         <td>
           ${
             issue.status === "ASSIGNED"
@@ -136,6 +136,20 @@ function filterIssues() {
         tableBody.appendChild(row);
       });
     });
+}
+
+function formatStatus(status) {
+  if (status === "OPEN") {
+    return `<span class="status-open">OPEN</span>`;
+  }
+
+  if (status === "ASSIGNED") {
+    return `<span class="status-assigned">ASSIGNED</span>`;
+  }
+
+  if (status === "RESOLVED") {
+    return `<span class="status-resolved">RESOLVED</span>`;
+  }
 }
 
 function logout() {
@@ -167,7 +181,7 @@ function showComments(issueId) {
       `;
         list.appendChild(div);
       });
-      document.getElementById("commentSection").style.display = "block";
+      document.getElementById("commentModal").style.display = "flex";
     });
 }
 
@@ -191,7 +205,7 @@ function addComment() {
 }
 
 function closeComments() {
-  document.getElementById("commentSection").style.display = "none";
+  document.getElementById("commentModal").style.display = "none";
 }
 
 function logout() {

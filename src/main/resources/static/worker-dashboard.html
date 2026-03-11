@@ -1,95 +1,94 @@
 <!doctype html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Worker Dashboard</title>
     <link rel="stylesheet" href="css/style.css" />
   </head>
+
   <body>
-    <button class="logout" onclick="logout()">Logout</button>
-    <h2>Urban Issue Tracker</h2>
-    <h2>Worker Dashboard</h2>
-
-    <h3>Worker Profile</h3>
-
-    <div id="workerProfile">
-      <p><b>ID:</b> <span id="workerId"></span></p>
-      <p><b>Name:</b> <span id="workerName"></span></p>
-      <p><b>Username:</b> <span id="workerUsername"></span></p>
-      <p><b>Department:</b> <span id="workerDepartment"></span></p>
-      <p><b>Location:</b> <span id="workerLocation"></span></p>
+    <div class="layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <h2>Urban Issue</h2>
+        <ul>
+          <li>Worker Dashboard</li>
+          <li onclick="logout()">Logout</li>
+        </ul>
+      </aside>
+      <!-- Main Content -->
+      <main class="content">
+        <header class="topbar"><h2>Worker Dashboard</h2></header>
+        <!-- Profile + Performance -->
+        <div class="top-grid">
+          <!-- Worker Profile -->
+          <div class="profile-card">
+            <h3>Worker Profile</h3>
+            <div id="workerProfile">
+              <p><b>ID:</b> <span id="workerId"></span></p>
+              <p><b>Name:</b> <span id="workerName"></span></p>
+              <p><b>Username:</b> <span id="workerUsername"></span></p>
+              <p><b>Department:</b> <span id="workerDepartment"></span></p>
+              <p><b>Location:</b> <span id="workerLocation"></span></p>
+            </div>
+          </div>
+          <!-- Performance Stats -->
+          <div class="stats-card">
+            <h3>My Performance</h3>
+            <div class="stats-row">
+              <div class="stat-card">
+                <p>Assigned Issues</p>
+                <span id="assignedCount">0</span>
+              </div>
+              <div class="stat-card">
+                <p>Resolved Issues</p>
+                <span id="resolvedCount">0</span>
+              </div>
+              <div class="stat-card">
+                <p>Total Issues</p>
+                <span id="totalCount">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Issues Section -->
+        <h3>My Issues</h3>
+        <select id="statusFilter" onchange="filterIssues()">
+          <option value="ASSIGNED">Assigned</option>
+          <option value="RESOLVED">Resolved</option>
+          <option value="ALL">All</option>
+        </select>
+        <div class="table-container">
+          <table id="issueTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Action</th>
+                <th>Image</th>
+                <th>Comments</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <!-- Comment Modal -->
+        <div id="commentModal" class="modal-overlay">
+          <div class="modal-box">
+            <h3>Issue Comments</h3>
+            <div id="commentList"></div>
+            <textarea id="newComment" placeholder="Write comment"></textarea>
+            <div class="modal-actions">
+              <button onclick="addComment()">Add Comment</button>
+              <button onclick="closeComments()">Close</button>
+            </div>
+          </div>
+        </div>
+        <p id="message"></p>
+      </main>
     </div>
-
-    <h3>My Performance</h3>
-
-    <div id="workerStats">
-      <div class="stat-card">
-        Assigned Issues<br />
-        <span id="assignedCount">0</span>
-      </div>
-
-      <div class="stat-card">
-        Resolved Issues<br />
-        <span id="resolvedCount">0</span>
-      </div>
-
-      <div class="stat-card">
-        Total Issues<br />
-        <span id="totalCount">0</span>
-      </div>
-    </div>
-
-    <h3>My Issues</h3>
-
-    <select id="statusFilter" onchange="filterIssues()">
-      <option value="ASSIGNED">Assigned</option>
-      <option value="RESOLVED">Resolved</option>
-      <option value="ALL">All</option>
-    </select>
-
-    <h3>Assigned Issues</h3>
-
-    <div class="table-container">
-      <table border="1" id="issueTable">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Priority</th>
-            <th>Status</th>
-            <th>Action</th>
-            <th>Images</th>
-            <th>Comments</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-
-    <div
-      id="commentSection"
-      style="
-        display: none;
-        margin-top: 20px;
-        border: 1px solid #ccc;
-        padding: 15px;
-      "
-    >
-      <h3>Issue Comments</h3>
-      <div id="commentList"></div>
-      <textarea
-        id="newComment"
-        placeholder="Write comment"
-        style="width: 100%; height: 70px"
-      ></textarea>
-      <br /><br />
-      <button onclick="addComment()">Add Comment</button>
-      <button onClick="closeComments()">Close</button>
-    </div>
-
-    <p id="message"></p>
 
     <script src="js/worker.js"></script>
   </body>

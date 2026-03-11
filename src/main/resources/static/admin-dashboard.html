@@ -6,103 +6,125 @@
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="css/style.css" />
   </head>
+
   <body>
-    <button class="logout" onclick="logout()">Logout</button>
-    <h2>Urban Issue Tracker</h2>
-    <h2>Admin Dashboard</h2>
+    <div class="layout">
+      <!-- Sidebar -->
 
-    <h3>System Statistics</h3>
+      <aside class="sidebar">
+        <h2>Urban Issue</h2>
 
-    <div id="stats">
-      <div class="stat-card stat-open">
-        Open Issues<br />
-        <span id="openCount">0</span>
-      </div>
+        <ul>
+          <li>Dashboard</li>
+          <li>Issues</li>
+          <li>Workers</li>
+          <li onclick="logout()">Logout</li>
+        </ul>
+      </aside>
 
-      <div class="stat-card stat-assigned">
-        Assigned Issues<br />
-        <span id="assignedCount">0</span>
-      </div>
+      <!-- Main Content -->
 
-      <div class="stat-card stat-resolved">
-        Resolved Issues<br />
-        <span id="resolvedCount">0</span>
-      </div>
+      <main class="content">
+        <header class="topbar">
+          <h2>Admin Dashboard</h2>
+        </header>
 
-      <div class="stat-card stat-pending">
-        Pending Workers<br />
-        <span id="pendingWorkers">0</span>
-      </div>
+        <!-- Stats -->
+
+        <section id="stats">
+          <div class="stat-card stat-open">
+            Open Issues
+            <span id="openCount">0</span>
+          </div>
+
+          <div class="stat-card stat-assigned">
+            Assigned Issues
+            <span id="assignedCount">0</span>
+          </div>
+
+          <div class="stat-card stat-resolved">
+            Resolved Issues
+            <span id="resolvedCount">0</span>
+          </div>
+
+          <div class="stat-card stat-pending">
+            Pending Workers
+            <span id="pendingWorkers">0</span>
+          </div>
+        </section>
+
+        <!-- Pending Workers -->
+
+        <h3>Pending Workers</h3>
+
+        <div class="table-container">
+          <table id="workerTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Location</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <!-- Issues Section -->
+
+        <h3>Issues</h3>
+
+        <select id="statusFilter" onchange="filterIssues()">
+          <option value="OPEN">Open</option>
+          <option value="ASSIGNED">Assigned</option>
+          <option value="RESOLVED">Resolved</option>
+        </select>
+
+        <div class="table-container">
+          <table id="issueTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Department</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th class="date-col">Created</th>
+                <th class="date-col">Assigned</th>
+                <th class="date-col">Resolved</th>
+                <th>Image</th>
+                <th>Assign Worker</th>
+                <th>Comments</th>
+              </tr>
+            </thead>
+
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <!-- Comment Modal -->
+
+        <div id="commentModal" class="modal-overlay">
+          <div class="modal-box">
+            <h3>Issue Comments</h3>
+
+            <div id="commentList"></div>
+
+            <textarea id="newComment" placeholder="Write comment"></textarea>
+
+            <div class="modal-actions">
+              <button onclick="addComment()">Add Comment</button>
+              <button onclick="closeComments()">Close</button>
+            </div>
+          </div>
+        </div>
+
+        <p id="message"></p>
+      </main>
     </div>
-
-    <h3>Pending workers</h3>
-
-    <div class="table-container">
-      <table border="1" id="workerTable">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Deaprtment</th>
-            <th>Location</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-
-    <h3>Open Issues</h3>
-
-    <select id="statusFilter" onchange="filterIssues()">
-      <option value="OPEN">Open</option>
-      <option value="ASSIGNED">Assigned</option>
-      <option value="RESOLVED">Resolved</option>
-    </select>
-
-    <div class="table-container">
-      <table border="1" id="issueTable">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Department</th>
-            <th>Priority</th>
-            <th>Status</th>
-            <th>Created</th>
-            <th>Assigned</th>
-            <th>Resolved</th>
-            <th>Image</th>
-            <th>Assign Worker</th>
-            <th>Comments</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-
-    <div
-      id="commentSection"
-      style="
-        display: none;
-        margin-top: 20px;
-        border: 1px solid #ccc;
-        padding: 15px;
-      "
-    >
-      <h3>Issue Comments</h3>
-      <div id="commentList"></div>
-      <textarea
-        id="newComment"
-        placeholder="Write comment"
-        style="width: 100%; height: 70px"
-      ></textarea>
-      <br /><br />
-      <button onclick="addComment()">Add Comment</button>
-      <button onClick="closeComments()">Close</button>
-    </div>
-
-    <p id="message"></p>
 
     <script src="js/admin.js"></script>
   </body>
