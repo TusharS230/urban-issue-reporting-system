@@ -8,22 +8,33 @@
   <body>
     <div class="auth-container">
       <div class="auth-card">
-        <h2>Login</h2>
+        <h2>Welcome Back</h2>
 
         <form id="loginForm">
-          <input type="text" id="username" placeholder="Username" required />
+          <div>
+            <label for="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              placeholder="Enter your username"
+              required
+            />
+          </div>
 
-          <input
-            type="password"
-            id="password"
-            placeholder="Password"
-            required
-          />
+          <div>
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
 
-          <button type="submit">Login</button>
+          <button type="submit">Sign In</button>
 
           <p class="auth-link">
-            Don't have an account? <a href="register.html">Register</a>
+            Don't have an account? <a href="register.html">Create one now</a>
           </p>
           <p id="message"></p>
         </form>

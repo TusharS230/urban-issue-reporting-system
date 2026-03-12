@@ -9,37 +9,62 @@
   <body>
     <div class="auth-container">
       <div class="auth-card">
-        <h2>User Registration</h2>
+        <h2>Create Account</h2>
 
         <form id="registerForm">
-          <label>Name</label>
-          <input type="text" id="name" required />
-
-          <label>Username</label>
-          <input type="text" id="username" required />
-
-          <label>Password</label>
-          <input type="password" id="password" required />
-
-          <label>Role</label>
-          <select id="role">
-            <option value="CITIZEN">Citizen</option>
-            <option value="WORKER">Worker</option>
-          </select>
-
-          <label>Location</label>
-          <input type="text" id="location" />
-
-          <div id="departmentContainer" style="display: none">
-            <label>Department</label>
-            <input type="text" id="department" />
+          <div>
+            <label for="name">Full Name</label>
+            <input
+              type="text"
+              id="name"
+              placeholder="Enter your full name"
+              required
+            />
           </div>
 
-          <button type="submit">Register</button>
+          <div>
+            <label for="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              placeholder="Choose a username"
+              required
+            />
+          </div>
+
+          <div>
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Create a password"
+              required
+            />
+          </div>
+
+          <div>
+            <label for="role">Role</label>
+            <select id="role">
+              <option value="CITIZEN">Citizen</option>
+              <option value="WORKER">Worker</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="location">Location</label>
+            <input type="text" id="location" placeholder="Your location" />
+          </div>
+
+          <div id="departmentContainer" style="display: none">
+            <label for="department">Department</label>
+            <input type="text" id="department" placeholder="Your department" />
+          </div>
+
+          <button type="submit">Create Account</button>
         </form>
 
         <p class="auth-link">
-          Already have an account? <a href="login.html">Login</a>
+          Already have an account? <a href="login.html">Sign in here</a>
         </p>
 
         <p id="message"></p>
