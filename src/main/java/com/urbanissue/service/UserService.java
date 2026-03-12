@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.management.RuntimeErrorException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -15,6 +16,10 @@ public class UserService {
     private UserRepository userRepository;
 
     public User registerUser(User user) {
+
+        if(userRepository.findByUsername(user.getUsername()).isPresent()) {
+            throw new RuntimeException("Username already exists");
+        }
 
         user.setApprovalStatus("PENDING");
 
@@ -53,5 +58,21 @@ public class UserService {
 
     public List<User> getApprovedWorkers() {
         return userRepository.findByRoleAndApprovalStatus("WORKER", "APPROVED");
+    }
+
+    public User updateCredentials(Long userId, String username, String password) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+                Optional<User> existingUser = userRepository.findByUsername(username);
+
+        if(existingUser.isPresent() && !existingUser.get().getId().equals(userId)) {
+            throw new RuntimeException("Username already taken");
+        }
+
+        user.setUsername(username);
+        user.setPassword(password);
+
+        return userRepository.save(user);
     }
 }

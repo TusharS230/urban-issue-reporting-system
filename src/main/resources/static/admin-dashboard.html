@@ -18,6 +18,7 @@
           <li>Dashboard</li>
           <li>Issues</li>
           <li>Workers</li>
+          <li onclick="openCredentialModal()">Change Credentials</li>
           <li onclick="logout()">Logout</li>
         </ul>
       </aside>
@@ -118,6 +119,27 @@
             <div class="modal-actions">
               <button onclick="addComment()">Add Comment</button>
               <button onclick="closeComments()">Close</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="credentialModal" class="modal-overlay">
+          <div class="modal-box">
+            <h3>Update Credentials</h3>
+
+            <label>New Username</label>
+            <input type="text" id="newUsername" />
+
+            <label>New Password</label>
+            <input type="text" id="newPassword" />
+
+            <p id="message">
+              Don't leave any field blank. Input existing one if not changing.
+            </p>
+
+            <div class="modal-action">
+              <button onclick="updateCredentials()">Update</button>
+              <button onclick="closeCredentialModal()">Close</button>
             </div>
           </div>
         </div>

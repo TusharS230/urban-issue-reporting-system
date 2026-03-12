@@ -234,6 +234,47 @@ function closeComments() {
   document.getElementById("commentModal").style.display = "none";
 }
 
+function openCredentialModal() {
+  document.getElementById("credentialModal").style.display = "flex";
+}
+
+function updateCredentials() {
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const username = document.getElementById("newUsername").value;
+  const password = document.getElementById("newPassword").value;
+
+  fetch(`http://localhost:8080/users/updateCredentials/${user.id}`, {
+    method: "PUT",
+
+    headers: {
+      "Content-Type": "application/json",
+    },
+
+    body: JSON.stringify({
+      username: username,
+      password: password,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      alert("Credentials updated successfully");
+
+      user.username = username;
+
+      localStorage.setItem("user", JSON.stringify(user));
+
+      closeCredentialModal();
+    })
+    .catch((err) => {
+      alert("Username already taken");
+    });
+}
+
+function closeCredentialModal() {
+  document.getElementById("credentialModal").style.display = "none";
+}
+
 function logout() {
   localStorage.removeItem("user");
   window.location.href = "login.html";

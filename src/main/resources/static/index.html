@@ -1,10 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Urban Issue</title>
 
-</body>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <div class="layout">
+      <!-- Sidebar (same style as dashboards) -->
+
+      <aside class="sidebar">
+        <h2>Urban Issue</h2>
+
+        <ul>
+          <li onclick="goLogin()">Login</li>
+          <li onclick="goRegister()">Register</li>
+        </ul>
+      </aside>
+
+      <!-- Main Content -->
+
+      <main class="content">
+        <header class="topbar">
+          <h2>Welcome</h2>
+        </header>
+
+        <section style="text-align: center; margin-top: 120px">
+          <h1>Urban Issue Reporting System</h1>
+
+          <p style="margin-top: 20px">
+            Report city problems like potholes, garbage, and broken
+            infrastructure.
+          </p>
+
+          <div style="margin-top: 40px">
+            <button
+              onclick="goLogin()"
+              style="padding: 12px 30px; margin-right: 20px"
+            >
+              Login
+            </button>
+
+            <button onclick="goRegister()" style="padding: 12px 30px">
+              Register
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      function goLogin() {
+        window.location.href = "login.html";
+      }
+
+      function goRegister() {
+        window.location.href = "register.html";
+      }
+    </script>
+  </body>
 </html>
