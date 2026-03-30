@@ -10,4 +10,4 @@ public class UrbanissueApplication {
 		SpringApplication.run(UrbanissueApplication.class, args);
 	}
 
-}
+} 

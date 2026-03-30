@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
           : null,
     };
 
-    fetch("http://localhost:8080/api/users/register", {
+    fetch("http://localhost:8080/users/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
